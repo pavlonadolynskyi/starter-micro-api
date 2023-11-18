@@ -177,7 +177,7 @@ async function getRequestSign(
 
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   const tuyaToken = await getTuyaToken();
 
   const { temp: insideTemperature, timestamp: insideTimestamp } = await getInsideTemperature(tuyaToken, config.measurerDeviceId);
