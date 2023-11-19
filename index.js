@@ -185,7 +185,7 @@ app.get('/', async (req, res) => {
   const isSwitchOn = await getIsSwitchOn(tuyaToken, config.switchDeviceId)
   const now = new Date()
 
-  res.send(`IN: ${insideTemperature} (-${new Date(now - insideTimestamp).getMinutes()}m) OUT: ${outsideTemperature} (-${new Date(now - outsideTimestamp).getMinutes()}m) ON: ${isSwitchOn}`)
+  res.send(`<H1>IN: ${insideTemperature} (-${new Date(now - insideTimestamp).getMinutes()}m) OUT: ${outsideTemperature} (-${new Date(now - outsideTimestamp).getMinutes()}m) ON: ${isSwitchOn}</H1>`)
 })
 
 app.post('/check', async (req, res) => {
