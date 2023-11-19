@@ -10,6 +10,7 @@ const config = {
   tuyaSecretKey: process.env.TUYA_SECRET,
   switchDeviceId: process.env.TUYA_SWITCH_ID,
   measurerDeviceId: process.env.TUYA_MEASURER_ID,
+  vremyankaMeasurerDeviceId: process.env.TUYA_VREMYANKA_MEASURER_ID,
   weatherKey: process.env.WEATHER_API_KEY,
   weatherLocation: process.env.WEATHER_LOCATION,
   minInsideTemperature: parseInt(process.env.MIN_INSIDE_TEMPERATURE, 10),
@@ -181,11 +182,12 @@ app.get('/', async (req, res) => {
   const tuyaToken = await getTuyaToken();
 
   const { temp: insideTemperature, timestamp: insideTimestamp } = await getInsideTemperature(tuyaToken, config.measurerDeviceId);
+  const { temp: vremyankaTemperature, timestamp: vremyankaTimestamp } = await getInsideTemperature(tuyaToken, config.vremyankaMeasurerDeviceId);
   const { temp: outsideTemperature, timestamp: outsideTimestamp } = await getOutsideTemperature(config.weatherKey, config.weatherLocation);
   const isSwitchOn = await getIsSwitchOn(tuyaToken, config.switchDeviceId)
   const now = new Date()
 
-  res.send(`<H1>IN: ${insideTemperature} (-${new Date(now - insideTimestamp).getMinutes()}m) OUT: ${outsideTemperature} (-${new Date(now - outsideTimestamp).getMinutes()}m) ON: ${isSwitchOn}</H1>`)
+  res.send(`<h1>CELLAR: ${insideTemperature} (-${new Date(now - insideTimestamp).getMinutes()}m)<BR/>OUTSIDE: ${outsideTemperature} (-${new Date(now - outsideTimestamp).getMinutes()}m)<BR/>FAN ON: ${isSwitchOn}<BR/>VREMYANKA: ${vremyankaTemperature} (-${new Date(now - vremyankaTimestamp).getMinutes()}m)</h1>`)
 })
 
 app.post('/check', async (req, res) => {
