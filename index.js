@@ -191,7 +191,11 @@ app.get('/', async (req, res) => {
 })
 
 app.post('/check', async (req, res) => {
-  await main()
+  try {
+    await main()
+  } catch (err) {
+    console.error(err)
+  }
   res.sendStatus(200)
 })
 
